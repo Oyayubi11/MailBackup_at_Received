@@ -1,0 +1,4 @@
+content   backup                 chrome/content/
+skin      backup   classic/1.0   chrome/skin/
+locale    backup   ja            chrome/locale/ja/
+overlay chrome://messenger/content/messenger.xul chrome://backup/content/overlay.xul

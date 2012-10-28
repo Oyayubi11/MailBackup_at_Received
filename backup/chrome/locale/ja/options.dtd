@@ -1,0 +1,4 @@
+<!ENTITY prefwindow.title "Backupアドオンコンフィグ">
+<!ENTITY pane1.title "Backupアドオンコンフィグ">
+<!ENTITY stringpref.label "データ保存先ディレクトリ名">
+<!ENTITY stringpref.accesskey "S">

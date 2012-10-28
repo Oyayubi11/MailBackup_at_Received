@@ -1,0 +1,8 @@
+<!ENTITY backup.label "Your localized menuitem">
+<!ENTITY backupContext.label "Your Menuitem">
+<!ENTITY backupContext.accesskey "Y">
+<!ENTITY backupToolbarButton.label "Your Toolbar Button">
+<!ENTITY backupToolbarButton.tooltip "This is your toolbar button!">
+<!ENTITY backupSidebar.label "Your Sidebar">
+<!ENTITY backupToolbar.name  "example">
+<!ENTITY backupToolbar.label "This is an example toolbar. You can hide it under View &gt; toolbars &gt; &backupToolbar.name;">
