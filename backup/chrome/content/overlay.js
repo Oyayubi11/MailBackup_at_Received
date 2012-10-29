@@ -1,29 +1,3 @@
-//メール内容出力。デバッグ甩
-function dispMessage( aMsgHdr ){
-    //件名取得
-    Application.console.log("subject:" + aMsgHdr.mime2DecodedSubject);
-    
-    //本文取得
-    let messenger = Components.classes["@mozilla.org/messenger;1"]
-	.createInstance(Components.interfaces.nsIMessenger);
-    let listener = Components.classes["@mozilla.org/network/sync-stream-listener;1"]
-        .createInstance(Components.interfaces.nsISyncStreamListener);
-    let uri = aMsgHdr.folder.getUriForMsg(aMsgHdr);
-    Application.console.log("url:" + uri);
-
-    //messageServiceFromURI : uriからnsIMsgMessageServiceを取得
-    //streamMessage : 
-    messenger.messageServiceFromURI(uri).streamMessage(uri, listener, null, null, false, "");
-    let folder = aMsgHdr.folder;
-    var msg = folder.getMsgTextFromStream(listener.inputStream,
-					  aMsgHdr.Charset,
-					  65536,
-					  32768,
-					  false,
-					  true,
-					  { });
-    Application.console.log("msg:"+msg);
-}
 
 //保存先ディレクトリのチェック、作成、パス名リターン
 function checkAndgetDir(myPanel){
@@ -36,20 +10,19 @@ function checkAndgetDir(myPanel){
     var value = prefs.getCharPref("stringpref");
     
     Application.console.log(value);
-    var basedirstr = value;
-    var basedir    = new FileUtils.File(basedirstr);
+    var dir    = new FileUtils.File(value);
     
-    //basedir存在チェック
-    if( !basedir.exists() ){
+    //コンフィグ指定の保存先dir存在チェック
+    if( !dir.exists() ){
 	myPanel.label = "Create basedir";
-	basedir.create(1,0777);
+	dir.create(1,0777);
     }
-    if( !basedir.isDirectory() ){
+    if( !dir.isDirectory() ){
 	myPanel.label = "basedir is file";		
 	return "";
     }
 	    
-    //basedirがあれば日付ディレクトリチェック＋作成
+    //dirがあれば日付ディレクトリチェック＋作成
     dd = new Date();
     yy = dd.getYear();
     mm = dd.getMonth() + 1;
@@ -57,10 +30,7 @@ function checkAndgetDir(myPanel){
     if (yy < 2000) { yy += 1900; }
     if (mm < 10) { mm = "0" + mm; }
     if (dd < 10) { dd = "0" + dd; }
-    var datestr = yy+""+mm+""+dd;
-    var dirstr = basedirstr + datestr + '/';
-    
-    var dir    = new FileUtils.File(dirstr);
+    dir.append( yy+""+mm+""+dd);
     
     if( !dir.exists() ){
 	myPanel.label = "Create dir";
@@ -72,7 +42,7 @@ function checkAndgetDir(myPanel){
 	return "";
     }
 
-    return dirstr;    
+    return dir;    
 }
 
 //保存する際のファイル名指定。現状messageidを利用している。
@@ -93,9 +63,9 @@ var atMailReceived = {
 	    Components.utils.import("resource://gre/modules/FileUtils.jsm");
 	    Components.utils.import("resource://gre/modules/NetUtil.jsm");
 
-	    var dirstr = checkAndgetDir(myPanel);
+	    var path = checkAndgetDir(myPanel);
 
-	    if( dirstr == "" ){
+	    if( path == "" ){
 		return;
 	    }
 
@@ -116,15 +86,15 @@ var atMailReceived = {
 	    let uri = aMsgHdr.folder.getUriForMsg(aMsgHdr);
 
 	    var filestr= getFileName(aMsgHdr);
-	    var file = new FileUtils.File(dirstr + filestr);
+	    path.append(filestr);
             var ioService = Components.classes["@mozilla.org/network/io-service;1"].getService(Components.interfaces.nsIIOService);
-            var outuri = ioService.newFileURI(file);
+            var outuri = ioService.newFileURI(path);
 
 	    //messageServiceFromURI : uriからnsIMsgMessageServiceを取得
 	    //SaveMessageToDisk : メッセージをディスクへ保存
 	    var aMsgSvc = messenger.messageServiceFromURI(uri)
 	    var saveUri = aMsgSvc.SaveMessageToDisk(uri,   //保存するメッセージのuri
-						    file,  //保存先ファイル情報
+						    path,  //保存先ファイル情報
 						    false, //特別な事情がない限りfalseでOK
 						    mailSaveListener,//copy完了時に動くcallback
 						    outuri,  //謎
