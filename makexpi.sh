@@ -2,5 +2,4 @@
 
 cd ./backup
 find . -name "*.*~" | xargs rm
-zip -r ../backupMail.xpi ./*
-
+zip -r ../backupMail.xpi *
