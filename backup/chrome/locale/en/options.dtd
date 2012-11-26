@@ -1,0 +1,4 @@
+<!ENTITY prefwindow.title "BackupAddon">
+<!ENTITY pane1.title "BackupAddon">
+<!ENTITY stringpref.label "Mail Save DirectoryName">
+<!ENTITY stringpref.accesskey "S">
