@@ -7,7 +7,8 @@
       <preference id="stringpref1" name="extensions.backup.stringpref" type="string"/> <!-- note that this is only an ASCII string - use unichar for unicode strings -->
     </preferences>
     <hbox align="center">
-    <label accesskey="&stringpref.accesskey;" control="textstringpref">&stringpref.label;</label><textbox id="textstringpref" preference="stringpref1"/>
+    <label accesskey="&stringpref.accesskey;" control="textstringpref" value="&stringpref.label;" />
+    <textbox id="textstringpref" preference="stringpref1"/>
     </hbox>
   </prefpane>
 </prefwindow>
