@@ -4,7 +4,7 @@
     <Description about="urn:mozilla:install-manifest">
         <em:type>2</em:type> <!-- 2 : Extension -->
         <em:id>backup@gmail.com</em:id>
-        <em:version>0.1.1</em:version>
+        <em:version>0.2.0</em:version>
         <em:name>backup</em:name>
         <em:creator>Oyayubi11</em:creator>
         <em:targetApplication>
